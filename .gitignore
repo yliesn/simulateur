@@ -1,0 +1,25 @@
+# Ignorer les fichiers .class Java
+*.class
+
+# Ignorer les fichiers spécifiques de l'IDE
+.vscode/
+.idea/
+*.iml
+
+# Ignorer les fichiers SQL
+*.sql
+
+# Ignorer les fichiers de configuration spécifiques
+application.properties
+application.yml
+
+# Ignorer les dossiers de build
+target/
+build/
+out/
+
+#JDK
+Oracle_JDK-23/
+
+# Ignorer les logs
+*.log
