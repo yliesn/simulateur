@@ -8,6 +8,8 @@ public class Tab2D extends JFrame {
     private JButton[][] cellules;
     private int taille;
     private final int MIN_CELL_SIZE = 20; // Taille minimale d'une cellule en pixels
+    private JComboBox<String> selecteur; // Ajout du sélecteur
+
 
     public Tab2D() {
         // Demande la taille de la grille à l'utilisateur
@@ -43,6 +45,11 @@ public class Tab2D extends JFrame {
         setTitle("Simulateur");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Création du sélecteur
+        String[] options = {"Option 1", "Option 2", "Option 3"}; // Remplacez par vos options
+        selecteur = new JComboBox<>(options);
+        selecteur.setPreferredSize(new Dimension(150, 25)); // Taille personnalisée
+
         // Création du panel principal avec scroll
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -61,6 +68,19 @@ public class Tab2D extends JFrame {
             initButton.setEnabled(false);
         });
 
+        // Ajout d'un écouteur pour le sélecteur
+        selecteur.addActionListener(e -> {
+            String selectedOption = (String) selecteur.getSelectedItem();
+            handleSelection(selectedOption);
+        });
+        
+
+
+        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        inputPanel.add(new JLabel("Sélectionner : "));
+        inputPanel.add(selecteur);
+
+        controlPanel.add(inputPanel);
         controlPanel.add(initButton);
         controlPanel.add(startButton);
 
@@ -89,6 +109,36 @@ public class Tab2D extends JFrame {
         mainPanel.add(scrollPane, BorderLayout.CENTER);
         mainPanel.add(controlPanel, BorderLayout.SOUTH);
         add(mainPanel);
+    }
+    // Méthode pour gérer la sélection
+    private void handleSelection(String selectedOption) {
+        switch (selectedOption) {
+            case "Option 1":
+                // Traitement pour l'option 1
+                System.out.println("Option 1 sélectionnée");
+                break;
+            case "Option 2":
+                // Traitement pour l'option 2
+                System.out.println("Option 2 sélectionnée");
+                break;
+            case "Option 3":
+                // Traitement pour l'option 3
+                System.out.println("Option 3 sélectionnée");
+                break;
+        }
+    }
+
+    // Méthode pour obtenir l'option sélectionnée
+    public String getSelectedOption() {
+        return (String) selecteur.getSelectedItem();
+    }
+
+    // Méthode pour définir les options du sélecteur
+    public void setOptions(String[] options) {
+        selecteur.removeAllItems();
+        for (String option : options) {
+            selecteur.addItem(option);
+        }
     }
 
     private void createGrid() {
