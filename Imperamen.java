@@ -148,7 +148,7 @@ public class Imperamen extends JFrame {
         cellules[startIndex].setToolTipText(data.get(dataIndex++));
 
         // Continue avec les positions suivantes
-        for (int i = 0; i < taille * taille && dataIndex < data.size(); i++) {
+        for (int i = 1; i < taille * taille && dataIndex < data.size(); i++) {
             int currentIndex = (startIndex + i) % (taille * taille);
             cellules[currentIndex].setToolTipText(data.get(dataIndex++));
             cellules[currentIndex].setBackground(Color.RED);
