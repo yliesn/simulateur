@@ -19,7 +19,7 @@ public class App {
         //Tableau 1 dimension
 
         SwingUtilities.invokeLater(() -> {
-            Tab1D frame = new Tab1D();
+            Imperamen frame = new Imperamen();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });

@@ -41,4 +41,8 @@ public class ImperaInstruction {
     public void setParametreB(String parametreB) {
         this.parametreB = parametreB;
     }
+
+    public void affiche(){
+        System.out.println(commande +" " + parametreA+ " "+ parametreB);
+    }
 }

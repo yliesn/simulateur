@@ -12,7 +12,7 @@ public class LectFile {
 	// 	return;
 	// }
 
-	public static ArrayList<String> import_csv(String cheminFichier) {
+	public static ArrayList<String> import_txt(String cheminFichier) {
 		File file = new File(cheminFichier);
         ArrayList<String> data= new ArrayList<>();
 		try {
@@ -23,13 +23,13 @@ public class LectFile {
 			for (String line = br.readLine(); line != null; line = br.readLine()) {
 				positionLigne++;
 				// System.out.println(line);
-				System.out.println(line);
+				//System.out.println(line);
 				data.add(line);
 
 			}
 			br.close();
 			fr.close();
-            System.out.println(data);
+            //System.out.println(data);
 
 		} catch (IOException e) {
 			System.err.println("Fichier introuvable : " + cheminFichier);

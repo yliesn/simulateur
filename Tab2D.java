@@ -191,7 +191,7 @@ public class Tab2D extends JFrame {
         int cellsVisited = 0;
         int totalCells = taille * taille;
         
-        ArrayList<String> data = LectFile.import_csv("DoubleTir.txt");
+        ArrayList<String> data = LectFile.import_txt("DoubleTir.txt");
         // Réinitialise toutes les cellules en blanc d'abord
         if (data == null || data.isEmpty()) {
             return;
