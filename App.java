@@ -7,7 +7,7 @@ public class App {
         //LectFile.import_csv("DoubleTir.txt");
 
         // SwingUtilities.invokeLater(() -> {
-        //     Tab2d frame = new Tab2d();
+        //     Tab2D frame = new Tab2D();
         //     frame.setLocationRelativeTo(null);
         //     frame.setVisible(true);
         // });
