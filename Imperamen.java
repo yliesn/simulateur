@@ -173,43 +173,26 @@ public class Imperamen extends JFrame {
     private void start() {
         System.out.println(cell_imp.length);
         String command;
-        
         for (int i = 0; i < cell_imp.length; i++) {
             //System.out.println(cell_imp[i].getCommande());
             command = cell_imp[i].getCommande();
-            System.out.println(command);
+            //System.out.println(command);
             switch (command) {
                 case "MOV":
                     System.out.println("mov");
                     break;
                 case "ADD":
                     System.out.println("add");
-                break;
+                    break;
                 case "JMP":
                     System.out.println("jump");
+                    break;
+                case "DAT":
+                    break;
                 default:
-                    System.out.println("defaut");
+                    throw new AssertionError();
             }
         }
-
-
-
-
-
-        // if (checkAllSameColor()) {
-        //     // System.out.println("Toutes les cellules sont de la même couleur !");
-        //     JOptionPane.showMessageDialog(
-        //     this,  // 'this' fait référence à la fenêtre principale
-        //     "Toutes les cellules sont de la même couleur !",
-        //     "Information",
-        //     JOptionPane.INFORMATION_MESSAGE
-        // );
-            
-        // }else{
-        //     System.out.println("Toutes les cellules ne sont pas de la même couleur !");
-        // }
-        
-        
     }
 
     private boolean checkAllSameColor() {
