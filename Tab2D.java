@@ -3,13 +3,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
-public class Tab2d extends JFrame {
+public class Tab2D extends JFrame {
     private JPanel gridPanel;
     private JButton[][] cellules;
     private int taille;
     private final int MIN_CELL_SIZE = 20; // Taille minimale d'une cellule en pixels
 
-    public Tab2d() {
+    public Tab2D() {
         // Demande la taille de la grille à l'utilisateur
         String input = JOptionPane.showInputDialog(
             null,
