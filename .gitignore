@@ -20,6 +20,7 @@ out/
 
 #JDK
 Oracle_JDK-23/
+OpenJDK-23/
 
 # Ignorer les logs
 *.log
