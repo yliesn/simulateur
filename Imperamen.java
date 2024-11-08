@@ -1,7 +1,10 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
+
 
 public class Imperamen extends JFrame {
     private JPanel gridPanel;
@@ -10,6 +13,8 @@ public class Imperamen extends JFrame {
     private int taille;
     private int startIndex;
     private final int MIN_CELL_SIZE = 20;
+    private static int timerMs;
+    private static javax.swing.Timer timer;
 
     public Imperamen() {
         // Demande la taille de la grille à l'utilisateur
@@ -52,6 +57,11 @@ public class Imperamen extends JFrame {
         // Bouton pour démarrer
         JButton startButton = new JButton("Start");
         startButton.addActionListener(e -> start());
+
+        // Ajouter un champs de texte pour le temps en ms du timer
+        JTextField timerField = new JTextField("100", 5);
+        controlPanel.add(new JLabel("Timer (ms):"));
+        controlPanel.add(timerField);
 
         // Bouton d'initialisation
         JButton initButton = new JButton("Init");
@@ -127,7 +137,7 @@ public class Imperamen extends JFrame {
         startIndex = random.nextInt(taille * taille);
         int dataIndex = 0;
 
-        ArrayList<String> data = LectFile.import_txt("DoubleTir.txt");
+        ArrayList<String> data = LectFile.import_txt("tir.txt");
         if (data == null || data.isEmpty()) {
             return;
         }
@@ -135,12 +145,15 @@ public class Imperamen extends JFrame {
         // Place la première donnée à la position aléatoire
         cellules[startIndex].setBackground(Color.RED);
         cellules[startIndex].setToolTipText(data.get(dataIndex++));
+        cell_imp[startIndex].setVisited(true);
+        
 
         // Continue avec les positions suivantes
         for (int i = 1; i < taille * taille && dataIndex < data.size(); i++) {
             int currentIndex = (startIndex + i) % (taille * taille);
             cellules[currentIndex].setToolTipText(data.get(dataIndex++));
             cellules[currentIndex].setBackground(Color.RED);
+            cell_imp[currentIndex].setVisited(true);
         }
         String[] parts;
         for (int i = 0; i < taille * taille; i++) {
@@ -157,6 +170,13 @@ public class Imperamen extends JFrame {
         // System.out.println(cell_imp[0].getCommande());
 
     }
+private void startTimer(){
+
+
+    timer = new javax.swing.Timer(200, new ActionListener() {
+        // @Override
+        public void actionPerformed(ActionEvent e) {
+            exec();
 
     private void start() {
         System.out.println(cell_imp.length);
@@ -187,11 +207,7 @@ public class Imperamen extends JFrame {
                             JOptionPane.ERROR_MESSAGE);
                     throw new AssertionError();
             }
-        }
-        cell_imp[1].setCommande("MOV");
-        changeGrid();
-        changeColor();
-    }
+
 
     private void changeGrid() {
         for (int i = 0; i < cellules.length; i++) {
@@ -203,7 +219,7 @@ public class Imperamen extends JFrame {
     }
     private void changeColor() {
         for (int i = 0; i < cellules.length; i++) {
-            if(!cell_imp[i].getCommande().equals("DAT")){
+            if(cell_imp[i].getVisited()){
 
                 cellules[i].setBackground(Color.red);
             }
@@ -241,9 +257,8 @@ public class Imperamen extends JFrame {
         };
     }
 
-    private void jmp(int index, String parametreA) {
+    private int jmp(int index, String parametreA) {
         // Le paramètre de saut (parametreA) est un nombre qui indique de combien de cases sauter
-        try {
             int jumpValue = Integer.parseInt(parametreA);  // Convertir le paramètre en entier
             int newIndex = index + jumpValue;
     
@@ -258,14 +273,7 @@ public class Imperamen extends JFrame {
             index = newIndex;
 
             // Afficher l'index actuel après le saut (pour le débogage ou suivi)
-            System.out.println("Saut vers l'index : " + index);
-        } catch (NumberFormatException e) {
-            // Si le paramètre n'est pas un nombre valide, afficher une erreur
-            JOptionPane.showMessageDialog(this,
-                "Le paramètre de saut n'est pas valide pour l'instruction JMP.",
-                "Erreur",
-                JOptionPane.ERROR_MESSAGE);
-        }
+            return newIndex;
     }
     private void add(int index, String parametreA, String parametreB) {
         // Gérer le cas où PARAMETREA est une valeur immédiate (commence par '#')
