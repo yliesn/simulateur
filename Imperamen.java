@@ -3,13 +3,14 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
-public class Tab1D extends JFrame {
+public class Imperamen extends JFrame {
     private JPanel gridPanel;
     private JButton[] cellules;
+    private ImperaInstruction[] cell_imp;
     private int taille;
     private final int MIN_CELL_SIZE = 20;
 
-    public Tab1D() {
+    public Imperamen() {
         // Demande la taille de la grille à l'utilisateur
         String input = JOptionPane.showInputDialog(
             null,
@@ -94,12 +95,16 @@ public class Tab1D extends JFrame {
     private void createGrid() {
         gridPanel.removeAll();
         cellules = new JButton[taille * taille];
+        cell_imp = new ImperaInstruction[taille * taille];
         
         int cellSize = Math.max(MIN_CELL_SIZE, Math.min(800/taille, 50));
         
         for (int i = 0; i < taille * taille; i++) {
             cellules[i] = createCell(i, cellSize);
             gridPanel.add(cellules[i]);
+        }
+        for (int i = 0; i < taille * taille; i++) {
+            cell_imp[i] = new ImperaInstruction();
         }
         
         gridPanel.revalidate();
@@ -108,9 +113,10 @@ public class Tab1D extends JFrame {
 
     private JButton createCell(int index, int size) {
         JButton cell = new JButton();
+        ImperaInstruction imp= new ImperaInstruction();
         cell.setBackground(Color.WHITE);
         cell.setPreferredSize(new Dimension(size, size));
-        cell.setToolTipText("DAT #1 #1");
+        cell.setToolTipText(imp.getCommande()+ " "+ imp.getParametreA()+ " "+ imp.getParametreB());
         
         cell.setFocusPainted(false);
         cell.setBorderPainted(true);
@@ -132,7 +138,7 @@ public class Tab1D extends JFrame {
         int startIndex = random.nextInt(taille * taille);
         int dataIndex = 0;
         
-        ArrayList<String> data = LectFile.import_csv("DoubleTir.txt");
+        ArrayList<String> data = LectFile.import_txt("DoubleTir.txt");
         if (data == null || data.isEmpty()) {
             return;
         }
@@ -147,10 +153,88 @@ public class Tab1D extends JFrame {
             cellules[currentIndex].setToolTipText(data.get(dataIndex++));
             cellules[currentIndex].setBackground(Color.RED);
         }
+        String[] parts;
+        for (int i = 0; i < taille * taille ; i++) {
+            //System.out.println(Arrays.toString(cellules[i].getToolTipText().split(" ")));
+            parts = (cellules[i].getToolTipText().split(" "));
+            this.cell_imp[i].setCommande(parts[0]);
+            this.cell_imp[i].setParametreA(parts[1]);
+            this.cell_imp[i].setParametreB(parts[2]);
+
+        }
+        // for (int idx = 0; idx < cell_imp.length; idx++) {
+        //     cell_imp[idx].affiche();           
+        // }
+        //System.out.println(cell_imp[0].getCommande());
+
+        
     }
 
     private void start() {
-        // À implémenter selon vos besoins
+        System.out.println(cell_imp.length);
+        //String command;
+        for (int i = 0; i < cell_imp.length; i++) {
+            
+            //command = cell_imp[i].getCommande();
+
+            //System.out.println(this.cellules[i].getToolTipText());
+            // try {
+            //     TimeUnit.MILLISECONDS.sleep(200);
+            // } catch (InterruptedException e) {
+            //     e.printStackTrace();
+            // }
+            switch (cell_imp[i].getCommande()) {
+                case "MOV":
+                    System.out.println("mov");
+                    break;
+                case "ADD":
+                    System.out.println("add");
+                    break;
+                case "JMP":
+                    System.out.println("jump");
+                    break;
+                case "DAT":
+                    
+                    break;
+                default:
+                    this.cellules[i].setBackground(Color.yellow);
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "L'instruction de la celulle " + (i+1) +" n'existe pas (bleu)",
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                    throw new AssertionError();
+            }
+        }
+        cell_imp[1].setCommande("MOV");
+        changeGrid();
+    }
+
+    private void changeGrid(){
+        for (int i = 0; i < cellules.length; i++) {
+            
+            cellules[i].setToolTipText(cell_imp[i].getCommande() + " "+cell_imp[i].getParametreA() +" "+cell_imp[i].getParametreB());
+            
+        }
+    }
+
+    private boolean checkAllSameColor() {
+        if (cellules == null || cellules.length == 0) {
+            return false;
+        }
+        
+        // Récupère la couleur de la première cellule comme référence
+        Color referenceColor = cellules[0].getBackground();
+        
+        // Compare chaque cellule avec la couleur de référence
+        for (int i = 1; i < cellules.length; i++) {
+            if (!cellules[i].getBackground().equals(referenceColor)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
     // Méthodes utilitaires pour la conversion entre index 1D et coordonnées 2D
@@ -165,11 +249,4 @@ public class Tab1D extends JFrame {
         };
     }
 
-    // public static void main(String[] args) {
-    //     SwingUtilities.invokeLater(() -> {
-    //         UnlimitedGridGUI frame = new UnlimitedGridGUI();
-    //         frame.setLocationRelativeTo(null);
-    //         frame.setVisible(true);
-    //     });
-    // }
 }
