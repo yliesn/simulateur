@@ -181,10 +181,14 @@ public class Imperamen extends JFrame {
             // }
             switch (cell_imp[i].getCommande()) {
                 case "MOV":
-                    System.out.println("J'execute move dans la cellule " + i);
-                    cell_imp[i].getParametreA().replaceAll("#", "");
+                    System.out.println("J'execute move dans la cellule " + (i + 1));
+                    cell_imp[i].setParametreA(cell_imp[i].getParametreA().replaceAll("#", ""));
                     int parametreA = Integer.parseInt(cell_imp[i].getParametreA());
-                    System.out.println("Voici le paramètre"arametreA);
+                    System.out.println("Voici le paramètre A" + parametreA);
+                    cell_imp[i].setParametreB(cell_imp[i].getParametreB().replaceAll("#", ""));
+                    int parametreB = Integer.parseInt(cell_imp[i].getParametreB());
+                    System.out.println("Voici le paramètre B" + parametreB);
+                    move(parametreA, parametreB, i, cell_imp);
                     break;
                 case "ADD":
                     System.out.println("add");
@@ -249,7 +253,9 @@ public class Imperamen extends JFrame {
     }
 
     public void move(int parametreA, int parametreB, int positionActuelle, ImperaInstruction[] cell_imp) {
-        cell_imp[parametreB + positionActuelle].setCommande(cell_imp[parametreA].getCommande());
+        cell_imp[parametreB + positionActuelle].setCommande(cell_imp[parametreA + positionActuelle].getCommande());
+        cell_imp[parametreB + positionActuelle].setParametreA(cell_imp[parametreA + positionActuelle].getParametreA());
+        cell_imp[parametreB + positionActuelle].setParametreB(cell_imp[parametreA + positionActuelle].getParametreB());
         System.out.println(cell_imp[parametreB + positionActuelle].getCommande());
     }
 
