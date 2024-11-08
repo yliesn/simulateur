@@ -172,61 +172,42 @@ public class Imperamen extends JFrame {
     }
 private void startTimer(){
 
+
     timer = new javax.swing.Timer(200, new ActionListener() {
         // @Override
         public void actionPerformed(ActionEvent e) {
             exec();
-        }
-    });
-    timer.start();
-}
 
-private void exec(){
-    cell_imp[startIndex].setVisited(true);
-
-    switch (cell_imp[startIndex].getCommande()) {
-        case "MOV":
-            move(startIndex);
-            break;
-        case "ADD":
-            System.out.println("add");
-            break;
-        case "JMP":
-            startIndex=jmp(startIndex, cell_imp[startIndex].getParametreA());
-            System.out.println("jump");
-            break;
-        case "DAT":
-            
-            break;
-        default:
-            this.cellules[startIndex].setBackground(Color.yellow);
-            JOptionPane.showMessageDialog(
-                    this,
-                    "L'instruction de la celulle " + (startIndex + 1) + " n'existe pas (bleu)",
-                    "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
-            throw new AssertionError();
-    }
-
-
-        startIndex++;
-        startIndex=startIndex%cell_imp.length;
-
-        changeGrid();
-        changeColor();
-}
-    // Ajouter un écouteur d'événements au timer
     private void start() {
         System.out.println(cell_imp.length);
-        startTimer();
-        // while (!cell_imp[startIndex].getCommande().equals("DAT")) {
-
+        // String command;
+        for (int i = 0; i < cell_imp.length; i++) {
             
-        // }
-        //cell_imp[1].setCommande("MOV");
-        // changeGrid();
-        // changeColor();
-    }
+            switch (cell_imp[i].getCommande()) {
+                case "MOV":
+                    move(i);
+                    break;
+                case "ADD":
+                    System.out.println("add");
+                    add(i, cell_imp[i].getParametreA(), cell_imp[i].getParametreB());
+                    break;
+                case "JMP":
+                    jmp(i, cell_imp[i].getParametreA());
+                    System.out.println("jump");
+                    break;
+                case "DAT":
+                    
+                    break;
+                default:
+                    this.cellules[i].setBackground(Color.yellow);
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "L'instruction de la celulle " + (i + 1) + " n'existe pas (bleu)",
+                            "Erreur",
+                            JOptionPane.ERROR_MESSAGE);
+                    throw new AssertionError();
+            }
+
 
     private void changeGrid() {
         for (int i = 0; i < cellules.length; i++) {
@@ -294,6 +275,51 @@ private void exec(){
             // Afficher l'index actuel après le saut (pour le débogage ou suivi)
             return newIndex;
     }
+    private void add(int index, String parametreA, String parametreB) {
+        // Gérer le cas où PARAMETREA est une valeur immédiate (commence par '#')
+        int valeurA = 0;
+        if (parametreA.charAt(0) == '#') {
+            // Si parametreA commence par '#', c'est une valeur immédiate
+            valeurA = Integer.parseInt(parametreA.substring(1));  // Retirer le '#' et convertir en entier
+        } else {
+            // Sinon, parametreA est une adresse, on va chercher la valeur de DAT à cette adresse
+            int adresseA = Integer.parseInt(parametreA);
+            // Supposons que 'cell_imp' contient les instructions des cellules
+            valeurA = Integer.parseInt(cell_imp[adresseA].getParametreA());  // Récupérer A de la cellule à l'adresse donnée
+        }
+
+        // Gérer le cas où PARAMETREB est une adresse
+        int valeurB = 0;
+        if (parametreB.charAt(0) == '#') {
+            // Si parametreB commence par '#', c'est une valeur immédiate
+            valeurB = Integer.parseInt(parametreB.substring(1));  // Retirer le '#' et convertir en entier
+        } else {
+            // Sinon, parametreB est une adresse, on va chercher la valeur de DAT à cette adresse
+            int adresseB = Integer.parseInt(parametreB);
+            // Supposons que 'cell_imp' contient les instructions des cellules
+            valeurB = Integer.parseInt(cell_imp[adresseB].getParametreB());  // Récupérer B de la cellule à l'adresse donnée
+        }
+
+        // Additionner les valeurs de A et B
+        int somme = valeurA + valeurB;
+
+        // Remplacer le paramètre B de l'adresse spécifiée par la somme
+        int adresseB = Integer.parseInt(parametreB);
+        cell_imp[adresseB].setParametreB(String.valueOf(somme));  // Mettre à jour le paramètre B avec la somme
+
+        // Déplacer la position courante à la cellule suivante
+        // Calculer l'index de la cellule suivante de manière sécurisée
+        int nextIndex = (index + 1) % cell_imp.length;  // Se déplacer à la cellule suivante (circularité)
+
+        // Si nextIndex est négatif ou invalide, le ramener à une position valide
+        if (nextIndex < 0) {
+            nextIndex = 0;  // Revenir à la première cellule si l'index est négatif
+        }
+
+        System.out.println("Saut vers la cellule suivante : " + nextIndex);
+    }
+
+
     
     public void move(int positionActuelle) {
 
