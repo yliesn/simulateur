@@ -227,12 +227,4 @@ public class Tab2D extends JFrame {
 
 
     }
-
-    // public static void main(String[] args) {
-    //     SwingUtilities.invokeLater(() -> {
-    //         UnlimitedGridGUI frame = new UnlimitedGridGUI();
-    //         frame.setLocationRelativeTo(null);
-    //         frame.setVisible(true);
-    //     });
-    // }
 }
