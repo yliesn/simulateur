@@ -266,5 +266,31 @@ public class Imperamen extends JFrame {
                 JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    public void move(int positionActuelle) {
+
+        cell_imp[positionActuelle].setParametreA(cell_imp[positionActuelle].getParametreA().replaceAll("#", ""));
+        int parametreA = Integer.parseInt(cell_imp[positionActuelle].getParametreA());
+        cell_imp[positionActuelle].setParametreB(cell_imp[positionActuelle].getParametreB().replaceAll("#", ""));
+        int parametreB = Integer.parseInt(cell_imp[positionActuelle].getParametreB());
+
+        int source = parametreA + positionActuelle;
+        if (source < 0 ) {
+            source += cell_imp.length;
+        } else if (source > cell_imp.length) {
+            source -= cell_imp.length;
+        }
+
+        int destination = parametreB + positionActuelle;
+        if (destination < 0 ) {
+            destination += cell_imp.length;
+        } else if (destination >= cell_imp.length) {
+            destination -= cell_imp.length;
+        }
+        
+        cell_imp[destination].setCommande(cell_imp[source].getCommande());
+        cell_imp[destination].setParametreA(cell_imp[source].getParametreA());
+        cell_imp[destination].setParametreB(cell_imp[source].getParametreB());
+    }
 
 }
