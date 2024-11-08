@@ -175,14 +175,6 @@ public class Imperamen extends JFrame {
         //String command;
         for (int i = 0; i < cell_imp.length; i++) {
             
-            //command = cell_imp[i].getCommande();
-
-            //System.out.println(this.cellules[i].getToolTipText());
-            // try {
-            //     TimeUnit.MILLISECONDS.sleep(200);
-            // } catch (InterruptedException e) {
-            //     e.printStackTrace();
-            // }
             switch (cell_imp[i].getCommande()) {
                 case "MOV":
                     System.out.println("mov");
