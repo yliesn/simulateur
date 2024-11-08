@@ -183,6 +183,7 @@ public class Imperamen extends JFrame {
                     System.out.println("add");
                     break;
                 case "JMP":
+                    jmp(i, cell_imp[i].getParametreA());
                     System.out.println("jump");
                     break;
                 case "DAT":
@@ -239,6 +240,33 @@ public class Imperamen extends JFrame {
             index / taille,    // row
             index % taille     // col
         };
+    }
+
+    private void jmp(int index, String parametreA) {
+        // Le paramètre de saut (parametreA) est un nombre qui indique de combien de cases sauter
+        try {
+            int jumpValue = Integer.parseInt(parametreA);  // Convertir le paramètre en entier
+            int newIndex = index + jumpValue;
+    
+            // S'assurer que l'index ne dépasse pas les bornes de la grille
+            if (newIndex < 0) {
+                newIndex = 0;
+            } else if (newIndex >= cell_imp.length) {
+                newIndex = cell_imp.length - 1;
+            }
+        
+            // Mettre à jour l'index courant et exécuter la cellule de l'index 'newIndex'
+            index = newIndex;
+
+            // Afficher l'index actuel après le saut (pour le débogage ou suivi)
+            System.out.println("Saut vers l'index : " + index);
+        } catch (NumberFormatException e) {
+            // Si le paramètre n'est pas un nombre valide, afficher une erreur
+            JOptionPane.showMessageDialog(this,
+                "Le paramètre de saut n'est pas valide pour l'instruction JMP.",
+                "Erreur",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }
