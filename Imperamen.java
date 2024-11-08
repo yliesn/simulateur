@@ -172,12 +172,18 @@ public class Imperamen extends JFrame {
 
     private void start() {
         System.out.println(cell_imp.length);
-        String command;
+        //String command;
         for (int i = 0; i < cell_imp.length; i++) {
-            //System.out.println(cell_imp[i].getCommande());
-            command = cell_imp[i].getCommande();
-            //System.out.println(command);
-            switch (command) {
+            
+            //command = cell_imp[i].getCommande();
+
+            //System.out.println(this.cellules[i].getToolTipText());
+            // try {
+            //     TimeUnit.MILLISECONDS.sleep(200);
+            // } catch (InterruptedException e) {
+            //     e.printStackTrace();
+            // }
+            switch (cell_imp[i].getCommande()) {
                 case "MOV":
                     System.out.println("mov");
                     break;
@@ -188,10 +194,28 @@ public class Imperamen extends JFrame {
                     System.out.println("jump");
                     break;
                 case "DAT":
+                    
                     break;
                 default:
+                    this.cellules[i].setBackground(Color.yellow);
+                    JOptionPane.showMessageDialog(
+                        this,
+                        "L'instruction de la celulle " + (i+1) +" n'existe pas (bleu)",
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE
+                    );
                     throw new AssertionError();
             }
+        }
+        cell_imp[1].setCommande("MOV");
+        changeGrid();
+    }
+
+    private void changeGrid(){
+        for (int i = 0; i < cellules.length; i++) {
+            
+            cellules[i].setToolTipText(cell_imp[i].getCommande() + " "+cell_imp[i].getParametreA() +" "+cell_imp[i].getParametreB());
+            
         }
     }
 
@@ -225,11 +249,4 @@ public class Imperamen extends JFrame {
         };
     }
 
-    // public static void main(String[] args) {
-    //     SwingUtilities.invokeLater(() -> {
-    //         UnlimitedGridGUI frame = new UnlimitedGridGUI();
-    //         frame.setLocationRelativeTo(null);
-    //         frame.setVisible(true);
-    //     });
-    // }
 }
