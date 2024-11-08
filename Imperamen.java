@@ -254,7 +254,7 @@ public class Imperamen extends JFrame {
         int destination = parametreB + positionActuelle;
         if (destination < 0 ) {
             destination += cell_imp.length;
-        } else if (destination > cell_imp.length) {
+        } else if (destination >= cell_imp.length) {
             destination -= cell_imp.length;
         }
         
