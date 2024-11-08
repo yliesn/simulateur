@@ -8,6 +8,7 @@ public class Imperamen extends JFrame {
     private JButton[] cellules;
     private ImperaInstruction[] cell_imp;
     private int taille;
+    private int startIndex;
     private final int MIN_CELL_SIZE = 20;
 
     public Imperamen() {
@@ -123,7 +124,7 @@ public class Imperamen extends JFrame {
 
     private void init() {
         Random random = new Random();
-        int startIndex = random.nextInt(taille * taille);
+        startIndex = random.nextInt(taille * taille);
         int dataIndex = 0;
 
         ArrayList<String> data = LectFile.import_txt("./scriptsCombat/DoubleTir.txt");
@@ -162,15 +163,7 @@ public class Imperamen extends JFrame {
         System.out.println(cell_imp.length);
         // String command;
         for (int i = 0; i < cell_imp.length; i++) {
-
-            // command = cell_imp[i].getCommande();
-
-            // System.out.println(this.cellules[i].getToolTipText());
-            // try {
-            // TimeUnit.MILLISECONDS.sleep(200);
-            // } catch (InterruptedException e) {
-            // e.printStackTrace();
-            // }
+            
             switch (cell_imp[i].getCommande()) {
                 case "MOV":
                     move(i);
@@ -179,10 +172,11 @@ public class Imperamen extends JFrame {
                     System.out.println("add");
                     break;
                 case "JMP":
+                    jmp(i, cell_imp[i].getParametreA());
                     System.out.println("jump");
                     break;
                 case "DAT":
-
+                    
                     break;
                 default:
                     this.cellules[i].setBackground(Color.yellow);
@@ -196,6 +190,7 @@ public class Imperamen extends JFrame {
         }
         cell_imp[1].setCommande("MOV");
         changeGrid();
+        changeColor();
     }
 
     private void changeGrid() {
@@ -203,6 +198,15 @@ public class Imperamen extends JFrame {
 
             cellules[i].setToolTipText(
                     cell_imp[i].getCommande() + " " + cell_imp[i].getParametreA() + " " + cell_imp[i].getParametreB());
+
+        }
+    }
+    private void changeColor() {
+        for (int i = 0; i < cellules.length; i++) {
+            if(!cell_imp[i].getCommande().equals("DAT")){
+
+                cellules[i].setBackground(Color.red);
+            }
 
         }
     }
@@ -232,11 +236,38 @@ public class Imperamen extends JFrame {
 
     private int[] getCoordinates(int index) {
         return new int[] {
-                index / taille, // row
-                index % taille // col
+            index / taille,    // row
+            index % taille     // col
         };
     }
 
+    private void jmp(int index, String parametreA) {
+        // Le paramètre de saut (parametreA) est un nombre qui indique de combien de cases sauter
+        try {
+            int jumpValue = Integer.parseInt(parametreA);  // Convertir le paramètre en entier
+            int newIndex = index + jumpValue;
+    
+            // S'assurer que l'index ne dépasse pas les bornes de la grille
+            if (newIndex < 0) {
+                newIndex = 0;
+            } else if (newIndex >= cell_imp.length) {
+                newIndex = cell_imp.length - 1;
+            }
+        
+            // Mettre à jour l'index courant et exécuter la cellule de l'index 'newIndex'
+            index = newIndex;
+
+            // Afficher l'index actuel après le saut (pour le débogage ou suivi)
+            System.out.println("Saut vers l'index : " + index);
+        } catch (NumberFormatException e) {
+            // Si le paramètre n'est pas un nombre valide, afficher une erreur
+            JOptionPane.showMessageDialog(this,
+                "Le paramètre de saut n'est pas valide pour l'instruction JMP.",
+                "Erreur",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     public void move(int positionActuelle) {
 
         cell_imp[positionActuelle].setParametreA(cell_imp[positionActuelle].getParametreA().replaceAll("#", ""));
