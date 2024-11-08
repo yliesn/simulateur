@@ -244,10 +244,25 @@ public class Imperamen extends JFrame {
     }
 
     public void move(int parametreA, int parametreB, int positionActuelle, ImperaInstruction[] cell_imp) {
-        cell_imp[parametreB + positionActuelle].setCommande(cell_imp[parametreA + positionActuelle].getCommande());
-        cell_imp[parametreB + positionActuelle].setParametreA(cell_imp[parametreA + positionActuelle].getParametreA());
-        cell_imp[parametreB + positionActuelle].setParametreB(cell_imp[parametreA + positionActuelle].getParametreB());
-        System.out.println(cell_imp[parametreB + positionActuelle].getCommande());
+        int source = parametreA + positionActuelle;
+        if (source < 0 ) {
+            source += cell_imp.length;
+        } else if (source > cell_imp.length) {
+            source -= cell_imp.length;
+        }
+
+        int destination = parametreB + positionActuelle;
+        if (destination < 0 ) {
+            destination += cell_imp.length;
+        } else if (destination > cell_imp.length) {
+            destination -= cell_imp.length;
+        }
+        
+        cell_imp[destination].setCommande(cell_imp[source].getCommande());
+        cell_imp[destination].setParametreA(cell_imp[source].getParametreA());
+        cell_imp[destination].setParametreB(cell_imp[source].getParametreB());
+        System.out.println("Voici la commande qu'a été copiée: " + cell_imp[destination].getCommande());
+        System.out.println("Et voici les paramètres copiées: " + cell_imp[destination].getParametreA() + ", " + cell_imp[destination].getParametreB());
     }
 
 }
