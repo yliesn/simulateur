@@ -1,4 +1,6 @@
 public class ImperaInstruction {
+    private int idTeam;
+    boolean hasBeenVisited = false;
     private String commande;
     private String parametreA;
     private String parametreB;

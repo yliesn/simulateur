@@ -264,5 +264,4 @@ public class Imperamen extends JFrame {
         System.out.println("Voici la commande qu'a été copiée: " + cell_imp[destination].getCommande());
         System.out.println("Et voici les paramètres copiées: " + cell_imp[destination].getParametreA() + ", " + cell_imp[destination].getParametreB());
     }
-
 }
