@@ -8,6 +8,7 @@ public class Imperamen extends JFrame {
     private JButton[] cellules;
     private ImperaInstruction[] cell_imp;
     private int taille;
+    private int startIndex;
     private final int MIN_CELL_SIZE = 20;
 
     public Imperamen() {
@@ -135,7 +136,7 @@ public class Imperamen extends JFrame {
 
     private void init() {
         Random random = new Random();
-        int startIndex = random.nextInt(taille * taille);
+        startIndex = random.nextInt(taille * taille);
         int dataIndex = 0;
         
         ArrayList<String> data = LectFile.import_txt("DoubleTir.txt");
@@ -194,7 +195,6 @@ public class Imperamen extends JFrame {
                     System.out.println("jump");
                     break;
                 case "DAT":
-                    
                     break;
                 default:
                     this.cellules[i].setBackground(Color.yellow);
