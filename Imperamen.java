@@ -118,15 +118,6 @@ public class Imperamen extends JFrame {
         cell.setFocusPainted(false);
         cell.setBorderPainted(true);
 
-        cell.addActionListener(e -> {
-            if (cell.getBackground() == Color.WHITE) {
-                cell.setBackground(Color.BLUE);
-            } else {
-                cell.setBackground(Color.WHITE);
-            }
-            cell.setBackground(Color.RED);
-        });
-
         return cell;
     }
 
@@ -184,10 +175,10 @@ public class Imperamen extends JFrame {
                     System.out.println("J'execute move dans la cellule " + (i + 1));
                     cell_imp[i].setParametreA(cell_imp[i].getParametreA().replaceAll("#", ""));
                     int parametreA = Integer.parseInt(cell_imp[i].getParametreA());
-                    System.out.println("Voici le paramètre A" + parametreA);
+                    System.out.println("Voici le paramètre A: " + parametreA);
                     cell_imp[i].setParametreB(cell_imp[i].getParametreB().replaceAll("#", ""));
                     int parametreB = Integer.parseInt(cell_imp[i].getParametreB());
-                    System.out.println("Voici le paramètre B" + parametreB);
+                    System.out.println("Voici le paramètre B: " + parametreB);
                     move(parametreA, parametreB, i, cell_imp);
                     break;
                 case "ADD":
