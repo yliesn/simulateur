@@ -196,6 +196,7 @@ public class Imperamen extends JFrame {
         }
         cell_imp[1].setCommande("MOV");
         changeGrid();
+        changeColor();
     }
 
     private void changeGrid() {
@@ -203,6 +204,15 @@ public class Imperamen extends JFrame {
 
             cellules[i].setToolTipText(
                     cell_imp[i].getCommande() + " " + cell_imp[i].getParametreA() + " " + cell_imp[i].getParametreB());
+
+        }
+    }
+    private void changeColor() {
+        for (int i = 0; i < cellules.length; i++) {
+            if(!cell_imp[i].getCommande().equals("DAT")){
+
+                cellules[i].setBackground(Color.red);
+            }
 
         }
     }
