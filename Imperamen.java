@@ -126,9 +126,10 @@ public class Imperamen extends JFrame {
         int startIndex = random.nextInt(taille * taille);
         int dataIndex = 0;
 
-        ArrayList<String> data = LectFile.import_txt("DoubleTir.txt");
+        ArrayList<String> data = LectFile.import_txt("./scriptsCombat/DoubleTir.txt");
         if (data == null || data.isEmpty()) {
-            return;
+            System.out.println("Erreur lors de l'importation du fichier");
+            throw new AssertionError();
         }
 
         // Place la première donnée à la position aléatoire
