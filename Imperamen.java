@@ -13,31 +13,28 @@ public class Imperamen extends JFrame {
     public Imperamen() {
         // Demande la taille de la grille à l'utilisateur
         String input = JOptionPane.showInputDialog(
-            null,
-            "Entrez la taille de la grille :",
-            "Configuration de la grille",
-            JOptionPane.QUESTION_MESSAGE
-        );
+                null,
+                "Entrez la taille de la grille :",
+                "Configuration de la grille",
+                JOptionPane.QUESTION_MESSAGE);
 
         try {
             taille = Integer.parseInt(input);
             if (taille <= 0) {
                 JOptionPane.showMessageDialog(
-                    null,
-                    "La taille doit être positive. Utilisation de la taille par défaut (10)",
-                    "Erreur",
-                    JOptionPane.ERROR_MESSAGE
-                );
+                        null,
+                        "La taille doit être positive. Utilisation de la taille par défaut (10)",
+                        "Erreur",
+                        JOptionPane.ERROR_MESSAGE);
                 taille = 10;
             }
         } catch (NumberFormatException | NullPointerException e) {
             taille = 10;
             JOptionPane.showMessageDialog(
-                null,
-                "Entrée invalide. Utilisation de la taille par défaut (10)",
-                "Erreur",
-                JOptionPane.ERROR_MESSAGE
-            );
+                    null,
+                    "Entrée invalide. Utilisation de la taille par défaut (10)",
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
         }
 
         // Configuration de la fenêtre principale
@@ -50,7 +47,7 @@ public class Imperamen extends JFrame {
 
         // Création du panel pour les boutons de contrôle
         JPanel controlPanel = new JPanel();
-        
+
         // Bouton pour démarrer
         JButton startButton = new JButton("Start");
         startButton.addActionListener(e -> start());
@@ -76,13 +73,13 @@ public class Imperamen extends JFrame {
 
         // Calcul de la taille de la fenêtre
         int screenWidth = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                         .getMaximumWindowBounds().width;
+                .getMaximumWindowBounds().width;
         int screenHeight = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                          .getMaximumWindowBounds().height;
-        
+                .getMaximumWindowBounds().height;
+
         int windowSize = Math.min(screenHeight - 100, screenWidth - 100);
         setSize(windowSize, windowSize);
-        
+
         // Création des cellules
         createGrid();
 
@@ -96,9 +93,9 @@ public class Imperamen extends JFrame {
         gridPanel.removeAll();
         cellules = new JButton[taille * taille];
         cell_imp = new ImperaInstruction[taille * taille];
-        
-        int cellSize = Math.max(MIN_CELL_SIZE, Math.min(800/taille, 50));
-        
+
+        int cellSize = Math.max(MIN_CELL_SIZE, Math.min(800 / taille, 50));
+
         for (int i = 0; i < taille * taille; i++) {
             cellules[i] = createCell(i, cellSize);
             gridPanel.add(cellules[i]);
@@ -106,21 +103,21 @@ public class Imperamen extends JFrame {
         for (int i = 0; i < taille * taille; i++) {
             cell_imp[i] = new ImperaInstruction();
         }
-        
+
         gridPanel.revalidate();
         gridPanel.repaint();
     }
 
     private JButton createCell(int index, int size) {
         JButton cell = new JButton();
-        ImperaInstruction imp= new ImperaInstruction();
+        ImperaInstruction imp = new ImperaInstruction();
         cell.setBackground(Color.WHITE);
         cell.setPreferredSize(new Dimension(size, size));
-        cell.setToolTipText(imp.getCommande()+ " "+ imp.getParametreA()+ " "+ imp.getParametreB());
-        
+        cell.setToolTipText(imp.getCommande() + " " + imp.getParametreA() + " " + imp.getParametreB());
+
         cell.setFocusPainted(false);
         cell.setBorderPainted(true);
-        
+
         cell.addActionListener(e -> {
             if (cell.getBackground() == Color.WHITE) {
                 cell.setBackground(Color.BLUE);
@@ -129,7 +126,7 @@ public class Imperamen extends JFrame {
             }
             cell.setBackground(Color.RED);
         });
-        
+
         return cell;
     }
 
@@ -137,7 +134,7 @@ public class Imperamen extends JFrame {
         Random random = new Random();
         int startIndex = random.nextInt(taille * taille);
         int dataIndex = 0;
-        
+
         ArrayList<String> data = LectFile.import_txt("DoubleTir.txt");
         if (data == null || data.isEmpty()) {
             return;
@@ -154,8 +151,8 @@ public class Imperamen extends JFrame {
             cellules[currentIndex].setBackground(Color.RED);
         }
         String[] parts;
-        for (int i = 0; i < taille * taille ; i++) {
-            //System.out.println(Arrays.toString(cellules[i].getToolTipText().split(" ")));
+        for (int i = 0; i < taille * taille; i++) {
+            // System.out.println(Arrays.toString(cellules[i].getToolTipText().split(" ")));
             parts = (cellules[i].getToolTipText().split(" "));
             this.cell_imp[i].setCommande(parts[0]);
             this.cell_imp[i].setParametreA(parts[1]);
@@ -163,29 +160,31 @@ public class Imperamen extends JFrame {
 
         }
         // for (int idx = 0; idx < cell_imp.length; idx++) {
-        //     cell_imp[idx].affiche();           
+        // cell_imp[idx].affiche();
         // }
-        //System.out.println(cell_imp[0].getCommande());
+        // System.out.println(cell_imp[0].getCommande());
 
-        
     }
 
     private void start() {
         System.out.println(cell_imp.length);
-        //String command;
+        // String command;
         for (int i = 0; i < cell_imp.length; i++) {
-            
-            //command = cell_imp[i].getCommande();
 
-            //System.out.println(this.cellules[i].getToolTipText());
+            // command = cell_imp[i].getCommande();
+
+            // System.out.println(this.cellules[i].getToolTipText());
             // try {
-            //     TimeUnit.MILLISECONDS.sleep(200);
+            // TimeUnit.MILLISECONDS.sleep(200);
             // } catch (InterruptedException e) {
-            //     e.printStackTrace();
+            // e.printStackTrace();
             // }
             switch (cell_imp[i].getCommande()) {
                 case "MOV":
-                    System.out.println("mov");
+                    System.out.println("J'execute move dans la cellule " + i);
+                    cell_imp[i].getParametreA().replaceAll("#", "");
+                    int parametreA = Integer.parseInt(cell_imp[i].getParametreA());
+                    System.out.println("Voici le paramètre"arametreA);
                     break;
                 case "ADD":
                     System.out.println("add");
@@ -194,16 +193,15 @@ public class Imperamen extends JFrame {
                     System.out.println("jump");
                     break;
                 case "DAT":
-                    
+
                     break;
                 default:
                     this.cellules[i].setBackground(Color.yellow);
                     JOptionPane.showMessageDialog(
-                        this,
-                        "L'instruction de la celulle " + (i+1) +" n'existe pas (bleu)",
-                        "Erreur",
-                        JOptionPane.ERROR_MESSAGE
-                    );
+                            this,
+                            "L'instruction de la celulle " + (i + 1) + " n'existe pas (bleu)",
+                            "Erreur",
+                            JOptionPane.ERROR_MESSAGE);
                     throw new AssertionError();
             }
         }
@@ -211,11 +209,12 @@ public class Imperamen extends JFrame {
         changeGrid();
     }
 
-    private void changeGrid(){
+    private void changeGrid() {
         for (int i = 0; i < cellules.length; i++) {
-            
-            cellules[i].setToolTipText(cell_imp[i].getCommande() + " "+cell_imp[i].getParametreA() +" "+cell_imp[i].getParametreB());
-            
+
+            cellules[i].setToolTipText(
+                    cell_imp[i].getCommande() + " " + cell_imp[i].getParametreA() + " " + cell_imp[i].getParametreB());
+
         }
     }
 
@@ -223,17 +222,17 @@ public class Imperamen extends JFrame {
         if (cellules == null || cellules.length == 0) {
             return false;
         }
-        
+
         // Récupère la couleur de la première cellule comme référence
         Color referenceColor = cellules[0].getBackground();
-        
+
         // Compare chaque cellule avec la couleur de référence
         for (int i = 1; i < cellules.length; i++) {
             if (!cellules[i].getBackground().equals(referenceColor)) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -244,9 +243,14 @@ public class Imperamen extends JFrame {
 
     private int[] getCoordinates(int index) {
         return new int[] {
-            index / taille,    // row
-            index % taille     // col
+                index / taille, // row
+                index % taille // col
         };
+    }
+
+    public void move(int parametreA, int parametreB, int positionActuelle, ImperaInstruction[] cell_imp) {
+        cell_imp[parametreB + positionActuelle].setCommande(cell_imp[parametreA].getCommande());
+        System.out.println(cell_imp[parametreB + positionActuelle].getCommande());
     }
 
 }
